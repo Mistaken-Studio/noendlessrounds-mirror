@@ -9,9 +9,9 @@ namespace Mistaken.NoEndlessRounds
     {
         public override string Author => "Mistaken Devs";
 
-        public override string Name => "";
+        public override string Name => "NoEndlessRounds";
 
-        public override string Prefix => "";
+        public override string Prefix => "MNoEndlessRounds";
 
         public override PluginPriority Priority => PluginPriority.Default;
 
