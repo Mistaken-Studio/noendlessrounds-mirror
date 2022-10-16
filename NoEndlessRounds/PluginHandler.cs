@@ -13,14 +13,14 @@ namespace Mistaken.NoEndlessRounds
 
         public override string Prefix => "MNoEndlessRounds";
 
-        public override PluginPriority Priority => PluginPriority.Default;
+        public override PluginPriority Priority => PluginPriority.Low;
 
         public override Version RequiredExiledVersion => new(5, 2, 2);
 
         public AutoUpdateConfig AutoUpdateConfig => new()
         {
-            Type = SourceType.DISABLED,
-            Url = string.Empty, // https://git.mistaken.pl/api/v4/projects/[PROJECT_ID] 
+            Type = SourceType.GITLAB,
+            Url = "https://git.mistaken.pl/api/v4/projects/116",
         };
 
         public override void OnEnabled()

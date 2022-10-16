@@ -31,9 +31,11 @@ namespace Mistaken.NoEndlessRounds
             Exiled.Events.Handlers.Server.RoundStarted -= this.Server_RoundStarted;
         }
 
+        private static MistakenCustomRole _tauSoldier;
+
         private static void Spawn()
         {
-            Player[] toSpawn = RealPlayers.Get(RoleType.Spectator).Where(x => x.IsOverwatchEnabled).ToArray().Shuffle().Take(5).ToArray();
+            Player[] toSpawn = RealPlayers.List.Where(x => x.IsDead && !x.IsOverwatchEnabled).ToArray().Shuffle().Take(PluginHandler.Instance.Config.SamsaraSpawnCount).ToArray();
 
             string unitName = "ALPHA-01";
             string cassieUnitName = "NATO_A 01";
@@ -44,9 +46,8 @@ namespace Mistaken.NoEndlessRounds
                 Map.ChangeUnitColor(RespawnManager.Singleton.NamingManager.AllUnitNames.Count - 1, "#C00");
             }
 
-            var tauSoldier = MistakenCustomRole.Get(MistakenCustomRoles.TAU_5);
             foreach (var player in toSpawn)
-                tauSoldier.AddRole(player);
+                _tauSoldier.AddRole(player);
 
             int scps = RealPlayers.List.Where(p => p.Role.Team == Team.SCP && p.Role.Type != RoleType.Scp0492).Count();
             if (scps > 0)
@@ -69,7 +70,7 @@ namespace Mistaken.NoEndlessRounds
 
         private static IEnumerator<float> Execute()
         {
-            if (UnityEngine.Random.Range(1, 101) < 25)
+            if (_tauSoldier is not null && UnityEngine.Random.Range(1, 101) < PluginHandler.Instance.Config.SamsaraSpawnChance)
             {
                 int random = UnityEngine.Random.Range(25, 31);
                 RLogger.Log("NOENDLESSROUND", "TAU-5", $"TAU-5 will spawn in T-{random} minutes");
@@ -115,6 +116,7 @@ namespace Mistaken.NoEndlessRounds
 
         private void Server_RoundStarted()
         {
+            _tauSoldier = MistakenCustomRole.Get(MistakenCustomRoles.TAU_5);
             this.RunCoroutine(Execute(), nameof(Execute), true);
         }
     }
