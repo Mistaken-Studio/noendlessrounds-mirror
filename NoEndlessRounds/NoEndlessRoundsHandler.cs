@@ -70,7 +70,8 @@ namespace Mistaken.NoEndlessRounds
 
         private static IEnumerator<float> Execute()
         {
-            if (_tauSoldier is not null && UnityEngine.Random.Range(1, 101) < PluginHandler.Instance.Config.SamsaraSpawnChance)
+            if (_tauSoldier is not null &&
+                UnityEngine.Random.Range(1, 101) < PluginHandler.Instance.Config.SamsaraSpawnChance)
             {
                 int random = UnityEngine.Random.Range(25, 31);
                 RLogger.Log("NOENDLESSROUND", "TAU-5", $"TAU-5 will spawn in T-{random} minutes");
@@ -104,7 +105,11 @@ namespace Mistaken.NoEndlessRounds
             if (Warhead.IsInProgress)
                 yield break;
 
-            Cassie.GlitchyMessage("WARHEAD OVERRIDE . ALPHA WARHEAD SEQUENCE ENGAGED", 1f, 1f);
+            CassieExtensions.GlitchyMessageTranslated(
+                "WARHEAD OVERRIDE . ALPHA WARHEAD SEQUENCE ENGAGED",
+                "Warhead override, Alpha Warhead sequence engaged",
+                1f,
+                1f);
             yield return Timing.WaitForSeconds(1);
 
             while (Cassie.IsSpeaking)
